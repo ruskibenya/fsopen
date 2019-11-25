@@ -15,8 +15,8 @@ const Part = (props) => {
 
 const Content = (props) => {
   return (
-    props.array.map((pair)=> {
-     return (<Part part={pair[0]} exercise={pair[1]} />)
+    props.array.map((obj)=> {
+     return (<Part part={obj.name} exercise={obj.exercises} />)
     })
   )
 }
@@ -29,23 +29,33 @@ const Total = (props) => {
 
 const App = () => {
   // const definitions
-  const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
-  const array = [[part1, exercises1], [part2, exercises2], [part3, exercises3]]
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
+  
 
 
   // Refactor the code so that it consists of three new components:
   // Header, Content, and Total. All data still resides in the App component
   return (
     <div>
-      <Header course={course} />
-      <Content array={array} />
-      <Total sum={exercises1 + exercises2 + exercises3} />
+      <Header course={course.name} />
+      <Content array={course.parts} />
+      <Total sum={course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises} />
     </div>
   )
 }
