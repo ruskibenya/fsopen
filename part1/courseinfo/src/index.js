@@ -15,8 +15,8 @@ const Part = (props) => {
 
 const Content = (props) => {
   return (
-    props.array.map((obj)=> {
-     return (<Part part={obj.name} exercise={obj.exercises} />)
+    props.array.map((obj, index)=> {
+     return (<Part key={index} part={obj.name} exercise={obj.exercises} />)
     })
   )
 }
