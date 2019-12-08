@@ -63,7 +63,7 @@ const App = () => {
       ]
   
     return (
-        <Courses courses={courses} key={courses.id}/>
+        <Courses courses={courses} />
     )
   }
 

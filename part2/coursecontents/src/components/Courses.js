@@ -14,9 +14,9 @@ const Courses = ({courses}) => {
     return(
         courses.map((course)=> {
             return (
-              <div>
-                <Course course={course} key={course.id} />
-                <Total course={course} key={course.id + 1}/>
+              <div key={course.id}>
+                <Course course={course}  />
+                <Total course={course}/>
               </div>  
             )
         })
