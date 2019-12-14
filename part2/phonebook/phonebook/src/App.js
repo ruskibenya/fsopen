@@ -64,6 +64,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter handleFilterChange={handleFilterChange}/>
+      <h3>Add a new contact</h3>      
       <PersonForm addOrAlertNewName={addOrAlertNewName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
         <Persons persons={personsToShow()} />

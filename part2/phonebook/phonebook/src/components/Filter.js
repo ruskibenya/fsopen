@@ -3,7 +3,7 @@ import React from 'react'
 const Filter = (props) => {
     return (
       <div>
-        filter shown with
+        Filter contacts by.. <span> </span>
         <input onChange={props.handleFilterChange} />
       </div>
     );
