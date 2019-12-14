@@ -12,19 +12,22 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ showAll, setShowAll] = useState(true)
 
-  const personsToShow = (event) => {
-    if (showAll){
+  const [ newFilter, setFilter] = useState('')
+
+  const personsToShow = name => {
+    if(showAll){
       return persons
     }
-    console.log(showAll)
-    return persons.filter(person => person.name.includes(event.target.value))
+   else {
+    return persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
+   }
   }
 
   const rows = () => personsToShow().map(person => 
     <Person
       key={person.name}
       person={person}
-      />
+    />
     )
 
   const alertDuplicateName = ({name}) => {
@@ -57,6 +60,10 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleFilterChange = (event) => {
+    event.target.value === '' ? setShowAll(true) : setShowAll(false)
+    setFilter(event.target.value)
+  }
 
 
   return (
@@ -64,7 +71,7 @@ const App = () => {
       <h2>Phonebook</h2>
       filter shown with
       <input
-        onChange={ (event)=> event.target.value === '' ? setShowAll(true) : setShowAll(false)  }
+        onChange={ handleFilterChange }
       />
       <form onSubmit={addOrAlertNewName}>
         <div>
@@ -85,7 +92,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {rows()}
+        {rows()}
     </div>
   )
 }
