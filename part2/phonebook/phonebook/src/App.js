@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import Person from './components/Person'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -11,7 +13,6 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ showAll, setShowAll] = useState(true)
-
   const [ newFilter, setFilter] = useState('')
 
   const personsToShow = name => {
@@ -22,13 +23,6 @@ const App = () => {
     return persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
    }
   }
-
-  const rows = () => personsToShow().map(person => 
-    <Person
-      key={person.name}
-      person={person}
-    />
-    )
 
   const alertDuplicateName = ({name}) => {
     return (
@@ -69,30 +63,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with
-      <input
-        onChange={ handleFilterChange }
-      />
-      <form onSubmit={addOrAlertNewName}>
-        <div>
-          name:
-          <input
-            value={newName}
-            onChange={handleNameChange}
-           />
-           <br></br>
-           number:
-           <input
-            value ={newNumber}
-            onChange={handleNumberChange}
-            />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter handleFilterChange={handleFilterChange}/>
+      <PersonForm addOrAlertNewName={addOrAlertNewName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-        {rows()}
+        <Persons persons={personsToShow()} />
     </div>
   )
 }
