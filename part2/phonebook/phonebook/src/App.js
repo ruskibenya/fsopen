@@ -3,60 +3,71 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 
+const defaultPersons = [
+  { name: 'Arto Hellas', number: '040-123456' },
+  { name: 'Ada Lovelace', number: '39-44-5323523' },
+  { name: 'Dan Abramov', number: '12-43-234345' },
+  { name: 'Mary Poppendieck', number: '39-23-6423122' }
+]
+
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
+  const [ persons, setPersons] = useState(defaultPersons) 
+  const [ name, setName ] = useState('')
+  const [ number, setNumber ] = useState('')
   const [ showAll, setShowAll] = useState(true)
   const [ newFilter, setFilter] = useState('')
 
-  const personsToShow = name => {
-    if(showAll){
-      return persons
-    }
-   else {
-    return persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
-   }
-  }
+  const personsToShow = () => 
+    showAll
+      ? persons
+      : persons.filter(person => 
+        person.name.toLowerCase().includes(newFilter.toLowerCase()),
+        );
 
-  const alertDuplicateName = ({name}) => {
+  const alertDuplicateName = () => {
     return (
-      alert(`${newName} is already added to phonebook`)
+      alert(`${name} is already added to phonebook`)
     )
   }
 
   const addPerson = () => {
-    const personObject = {
-      name: newName,
-      number: newNumber
-    }
-
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    setPersons(
+      persons.concat({
+        name: name,
+        number: number,
+      }),
+      setName(''),
+      setNumber('')
+    )
   }
 
-  const addOrAlertNewName = (event) => {
+  const handleAddPerson = event => {
     event.preventDefault()
-    persons.find(element => element.name === newName) ? alertDuplicateName(newName) : addPerson()
+    persons.find(element => element.name === name) 
+    ? alertDuplicateName() 
+    : addPerson()
   }
 
   const handleNameChange = (event) => {
-    setNewName(event.target.value)
+    setName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
+    setNumber(event.target.value)
   }
 
   const handleFilterChange = (event) => {
-    event.target.value === '' ? setShowAll(true) : setShowAll(false)
-    setFilter(event.target.value)
+    const {value} =  event.target;
+    value === '' ? setShowAll(true) : setShowAll(false)
+    setFilter(value)
+  }
+
+  const personProps = {
+    handleAddPerson,
+    handleNameChange,
+    handleNumberChange,
+    name,
+    number
   }
 
 
@@ -65,7 +76,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter handleFilterChange={handleFilterChange}/>
       <h3>Add a new contact</h3>      
-      <PersonForm addOrAlertNewName={addOrAlertNewName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
+      <PersonForm {...personProps} />
       <h2>Numbers</h2>
         <Persons persons={personsToShow()} />
     </div>
